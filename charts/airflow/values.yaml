@@ -487,6 +487,38 @@ airflow:
     ##
     safeToEvict: true
 
+  ########################################
+  ## COMPONENT | StatsD Exporter Sidecar
+  ########################################
+  statsdExporter:
+
+    ## TODO: ensure users dont override `AIRFLOW__METRICS__STATSD_HOST`, `AIRFLOW__METRICS__STATSD_ON`, etc
+    ##   - https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html#statsd-host
+    ##     these configs were added in airflow 2.0.0, what can we do to bring support to 1.10.0?
+
+    ## XXXX
+    ##
+    enabled: true
+
+    ## the statsd-exporter container image
+    ##
+    image:
+      repository: prom/statsd-exporter
+      tag: v0.22.4
+      pullPolicy: IfNotPresent
+      uid: 65534
+      gid: 65534
+
+    ## XXXX
+    ##
+    resources: {}
+
+    ## XXXX
+    ##
+    ## TODO: do we need liveness probe configs
+    livenessProbe:
+
+
 ###################################
 ## COMPONENT | Airflow Scheduler
 ###################################

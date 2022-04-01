@@ -54,6 +54,34 @@ EXAMPLE USAGE: {{ include "airflow.podSecurityContext" (dict "Release" .Release 
 {{- end }}
 
 {{/*
+Define a container which runs StatsD Exporter
+EXAMPLE USAGE: {{ include "airflow.container.statsd_exporter" (dict "Release" .Release "Values" .Values "volumeMounts" $volumeMounts) }}
+*/}}
+{{- define "airflow.container.statsd_exporter" }}
+- name: statsd-exporter
+  image: {{ .Values.airflow.statsdExporter.image.repository }}:{{ .Values.airflow.statsdExporter.image.tag }}
+  imagePullPolicy: {{ .Values.airflow.statsdExporter.image.pullPolicy }}
+  securityContext:
+    runAsUser: {{ .Values.airflow.statsdExporter.image.uid }}
+    runAsGroup: {{ .Values.airflow.statsdExporter.image.gid }}
+  env:
+    ## TODO: can we config statsd-exporter with env vars
+  command:
+    ## TODO: look at what the default entrypoint is
+    - xxxxx
+  args:
+    - --statsd.mapping-config=/etc/statsd-exporter/airflow-mapping.yaml
+  volumeMounts:
+    ## TODO: mount the config file
+  livenessProbe:
+    exec:
+      command:
+        - XXXXXXXXXX
+    initialDelaySeconds: XX
+    periodSeconds: XX
+{{- end }}
+
+{{/*
 Define an init-container which checks the DB status
 EXAMPLE USAGE: {{ include "airflow.init_container.check_db" (dict "Release" .Release "Values" .Values "volumeMounts" $volumeMounts) }}
 */}}
