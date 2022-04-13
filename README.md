@@ -1,18 +1,15 @@
-# Airflow Community Helm Charts
+# Airflow Helm Chart (User Community)
 
-## Charts
+> This repository contains the following projects.
 
-| name | description |
+## Helm Charts
+
+| Name | Description |
 | --- | --- |
-| [charts/airflow](https://github.com/airflow-helm/charts/tree/main/charts/airflow) | the community Apache Airflow Helm Chart - used to deploy Apache Airflow on Kubernetes
+| [airflow](https://github.com/airflow-helm/charts/tree/main/charts/airflow) | Airflow Helm Chart (User Community) - the standard way to deploy Apache Airflow on Kubernetes with Helm |
 
-## Repo Usage
+## Docker Images
 
-```sh
-helm repo add airflow-stable https://airflow-helm.github.io/charts
-helm repo update
-```
-
-## Contributing
-
-Please refer to [CONTRIBUTING.md](https://github.com/airflow-helm/charts/tree/main/charts/airflow/CONTRIBUTING.md) for details.
+| Name | Description |
+| --- | --- |
+| [pgbouncer](https://github.com/airflow-helm/charts/tree/main/images/pgbouncer) | a lightweight image used to run [PgBouncer](https://www.pgbouncer.org/) |
