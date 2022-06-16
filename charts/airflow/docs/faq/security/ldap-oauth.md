@@ -165,6 +165,97 @@ or follow one of these examples.
 
 <details>
 <summary>
+  <b>AWS Cognito</b>
+</summary>
+
+---
+
+> 🟦 __Tip__ 🟦
+>
+> The OAUTH callback URL will be: `https://MY_AIRFLOW_DOMAIN/oauth-authorized/aws_cognito`
+
+These [`web.webserverConfig`](../configuration/airflow-configs.md#webserver_configpy) values will integrate with AWS Cognito:
+
+```yaml
+web:
+  webserverConfig:
+    ## this is the full text of your `webserver_config.py`
+    stringOverride: |
+      #######################################
+      # Custom AirflowSecurityManager
+      #######################################
+      from airflow.www.security import AirflowSecurityManager
+      
+      class CustomSecurityManager(AirflowSecurityManager):
+          def get_oauth_user_info(self, provider, resp):
+              if provider == "aws_cognito":
+                  me = self.appbuilder.sm.oauth_remotes[provider].get("userinfo")
+                  data = me.json()
+                  return {
+                      "username": "cognito_" + data.get("sub", ""),
+                      "first_name": data.get("given_name", ""),
+                      "last_name": data.get("family_name", ""),
+                      "email": data.get("email", ""),
+      
+                      # NOTE: this hard-codes all Cognito users as being a member of "FAB_USERS"
+                      #       which is mapped in the following `AUTH_ROLES_MAPPING` to "Users",
+                      #       (there is probably a way to extract group information from cognito itself,
+                      #        if you know how, please raise a PR for these docs!)
+                      "role_keys": ["FAB_USERS"],
+                  }
+              else:
+                  return {}
+      
+      #######################################
+      # Actual `webserver_config.py`
+      #######################################
+      from flask_appbuilder.security.manager import AUTH_OAUTH
+      
+      # NOTE: only needed for airflow 1.10
+      #from airflow import configuration as conf
+      #SQLALCHEMY_DATABASE_URI = conf.get("core", "SQL_ALCHEMY_CONN")
+      
+      AUTH_TYPE = AUTH_OAUTH
+      SECURITY_MANAGER_CLASS = CustomSecurityManager
+      
+      # registration configs
+      AUTH_USER_REGISTRATION = True  # allow users who are not already in the FAB DB
+      AUTH_USER_REGISTRATION_ROLE = "Public"  # this role will be given in addition to any AUTH_ROLES_MAPPING
+      
+      # the list of providers which the user can choose from
+      OAUTH_PROVIDERS = [
+          {
+              "name": "aws_cognito",
+              "icon": "fa-amazon",
+              "token_key": "access_token",
+              "remote_app": {
+                  "client_id": "COGNITO_CLIENT_ID",
+                  "client_secret": "COGNITO_CLIENT_SECRET",
+                  "api_base_url": "https://COGNITO_POOL.auth.AWS_REGION.amazoncognito.com/oauth2/",
+                  "client_kwargs": {"scope": "openid profile email"},
+                  "access_token_url": "https://COGNITO_POOL.auth.AWS_REGION.amazoncognito.com/oauth2/authorize",
+                  "authorize_url": "https://COGNITO_POOL.auth.AWS_REGION.amazoncognito.com/oauth2/token",
+              },
+          },
+      ]
+      
+      # a mapping from the values of `userinfo["role_keys"]` to a list of FAB roles
+      AUTH_ROLES_MAPPING = {
+          "FAB_USERS": ["User"],
+          "FAB_ADMINS": ["Admin"],
+      }
+      
+      # if we should replace ALL the user's roles each login, or only on registration
+      AUTH_ROLES_SYNC_AT_LOGIN = True
+      
+      # force users to re-auth after 30min of inactivity (to keep roles in sync)
+      PERMANENT_SESSION_LIFETIME = 1800
+```
+
+</details>
+
+<details>
+<summary>
   <b>GitHub</b>
 </summary>
 
