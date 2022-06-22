@@ -2,6 +2,36 @@ apiVersion: v1
 entries:
   airflow:
   - apiVersion: v2
+    appVersion: 2.2.5
+    created: "2022-06-22T22:08:04.625470465Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.helm.sh/stable
+      version: 8.6.4
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.helm.sh/stable
+      version: 10.5.7
+    description: Airflow Helm Chart (User Community) - the standard way to deploy
+      Apache Airflow on Kubernetes with Helm
+    digest: 23d9510aa3b8e9627fafb1ab0b994c85f4e6b9809814969667e207003862e8ea
+    home: https://github.com/airflow-helm/charts/tree/main/charts/airflow
+    icon: https://airflow.apache.org/_images/pin_large.png
+    keywords:
+    - airflow
+    - dag
+    - workflow
+    maintainers:
+    - name: thesuperzapper
+      url: https://github.com/thesuperzapper
+    name: airflow
+    sources:
+    - https://github.com/airflow-helm/charts/tree/main/charts/airflow
+    urls:
+    - https://github.com/thesuperzapper/charts/releases/download/airflow-8.6.1/airflow-8.6.1.tgz
+    version: 8.6.1
+  - apiVersion: v2
     appVersion: 2.1.4
     created: "2022-01-10T05:49:43.950881064Z"
     dependencies:
@@ -33,4 +63,4 @@ entries:
     urls:
     - https://github.com/thesuperzapper/charts/releases/download/airflow-8.5.3/airflow-8.5.3.tgz
     version: 8.5.3
-generated: "2022-01-10T05:49:43.950886464Z"
+generated: "2022-06-22T22:08:04.625485666Z"
