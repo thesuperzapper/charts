@@ -59,10 +59,10 @@ We recommend that you start your `custom-values.yaml` file from one of our sampl
 > 
 > The following links should help you extend your `custom-values.yaml` to suit your needs:
 >
-> - [`Docs: Key Features`](../..#key-features)
-> - [`Docs: Frequently Asked Questions`](../..#frequently-asked-questions)
-> - [`Docs: Examples`](../..#examples)
-> - [`Docs: Helm Values`](../..#helm-values)
+> - [`Docs: Key Features`](../../#key-features)
+> - [`Docs: Frequently Asked Questions`](../../#frequently-asked-questions)
+> - [`Docs: Examples`](../../#examples)
+> - [`Docs: Helm Values`](../../#helm-values)
 
 > 🟦 __Tip__ 🟦
 >
